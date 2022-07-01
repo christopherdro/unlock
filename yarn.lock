@@ -15387,7 +15387,7 @@ __metadata:
     tsconfig-paths-webpack-plugin: 3.5.2
     tsup: 6.0.1
     typescript: 4.7.2
-    vite: 2.9.9
+    vite: 2.9.13
     vite-tsconfig-paths: 3.5.0
   peerDependencies:
     "@headlessui/react": 1.6.4
@@ -51114,7 +51114,36 @@ typescript@^3.8.3:
   languageName: node
   linkType: hard
 
-"vite@npm:2.9.9, vite@npm:^2.9.9":
+"vite@npm:2.9.13":
+  version: 2.9.13
+  resolution: "vite@npm:2.9.13"
+  dependencies:
+    esbuild: ^0.14.27
+    fsevents: ~2.3.2
+    postcss: ^8.4.13
+    resolve: ^1.22.0
+    rollup: ^2.59.0
+  peerDependencies:
+    less: "*"
+    sass: "*"
+    stylus: "*"
+  dependenciesMeta:
+    fsevents:
+      optional: true
+  peerDependenciesMeta:
+    less:
+      optional: true
+    sass:
+      optional: true
+    stylus:
+      optional: true
+  bin:
+    vite: bin/vite.js
+  checksum: a5e501b920a448c352e9b3836019dea56c523535f8e8540160708c2e164d84da6655ae39abbba1e2888092f5c6cd03dd06279852422359b51be601914645f49f
+  languageName: node
+  linkType: hard
+
+"vite@npm:^2.9.9":
   version: 2.9.9
   resolution: "vite@npm:2.9.9"
   dependencies:
