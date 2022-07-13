@@ -27,6 +27,7 @@ import { MAX_UINT } from '../../../constants'
 import { useConfig } from '../../../utils/withConfig'
 import { OpenSeaIcon } from '../../icons'
 import { CancelAndRefundModal } from './CancelAndRefundModal'
+import { createWalletPass, Platform } from '../../../services/ethpass'
 
 interface KeyBoxProps {
   tokenURI: string
@@ -147,6 +148,7 @@ const Key = ({ ownedKey, account, network }: Props) => {
   const [showingQR, setShowingQR] = useState(false)
   const [signature, setSignature] = useState<any | null>(null)
   const [showCancelModal, setShowCancelModal] = useState(false)
+  const metadata = useMetadata(tokenURI)
 
   const handleSignature = async () => {
     setError('')
@@ -172,6 +174,25 @@ const Key = ({ ownedKey, account, network }: Props) => {
       address: lock.address,
       symbol: 'KEY',
       image: `${config.services.storage.host}/lock/${lock.address}/icon`,
+    })
+  }
+
+  const generateWalletPass = async (platform: Platform) => {
+    const signatureMessage =
+      'Sign this message to generate your mobile wallet pass'
+    const signature = await walletService.signMessage(
+      signatureMessage,
+      'personal_sign'
+    )
+
+    await createWalletPass({
+      contractAddress: lock.address,
+      tokenId: ownedKey.keyId,
+      chainId: network,
+      signatureMessage,
+      signature,
+      image: metadata.image,
+      platform,
     })
   }
 
@@ -311,6 +332,28 @@ const Key = ({ ownedKey, account, network }: Props) => {
               </button>
             </Tooltip>
           )}
+        </div>
+      </div>
+      <div className="grid gap-2 pt-4">
+        <div className="flex items-center gap-2">
+          <Tooltip label="Add to Apple Wallet" tip="Add to Apple Wallet">
+            <button
+              className={iconButtonClass}
+              type="button"
+              onClick={() => generateWalletPass(Platform.APPLE)}
+            >
+              <WalletIcon />
+            </button>
+          </Tooltip>
+          <Tooltip label="Add to Google Pay" tip="Add to Google Pay">
+            <button
+              className={iconButtonClass}
+              type="button"
+              onClick={() => generateWalletPass(Platform.GOOGLE)}
+            >
+              <WalletIcon />
+            </button>
+          </Tooltip>
         </div>
       </div>
     </div>
